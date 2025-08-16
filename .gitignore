@@ -1,0 +1,6 @@
+executed_notebook.ipynb
+test_enhanced_notebook.ipynb
+final_test_notebook.ipynb
+*.pyc
+__pycache__/
+.pytest_cache/
