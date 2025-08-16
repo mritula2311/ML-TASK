@@ -4,3 +4,4 @@ final_test_notebook.ipynb
 *.pyc
 __pycache__/
 .pytest_cache/
+validation_test.ipynb
