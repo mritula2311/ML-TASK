@@ -137,3 +137,16 @@ The following environment variables are required:
 
 ## License
 This project is licensed under the MIT License.
+
+
+
+app.get("/xyz/xyz/xyz",{req,res} => {
+    res.json({
+        totalMovies: dataset.data.movies.length,
+        movies: dataset.data.,
+        "Drama": 23, 
+  "Action": 12, 
+  "Adventure": 9 
+
+
+    });
