@@ -1,34 +1,44 @@
 import express from "express";
 import dotenv from "dotenv";
 import axios from "axios";
+import { moviesList } from "./config/db.js";
 
 
 dotenv.config();
 const app = express();
-let dataset = [];
 const port = process.env.PORT;
 const baseurl = "https://t4e-demotestserver.onrender.com/api";
 
+let dataset = [];
+
 const dataloader = async () => {
-    const response = await axios.post(`${baseurl}/public/token`, {
-        "studentId": process.env.UID,
-        "set": "setA"
-    });
+    try {
+        const response = await axios.post(`${baseurl}/public/token`, {
+            "studentId": process.env.UID,
+            "set": "setA"
+        });
 
-    const token = response.data.token;
-    const dataurl = response.data.dataUrl;
+        const token = response.data.token;
+        const dataurl = response.data.dataUrl;
 
-    const response2 = await axios.get(`${baseurl}${dataurl}`, {
-        headers: { Authorization: `Bearer ${token}` }
-    });
+        const response2 = await axios.get(`${baseurl}${dataurl}`, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
 
-    dataset = response2.data;
+        dataset = response2.data;
+        console.log("Live data fetched successfully.");
+    } catch (error) {
+        console.error("Error fetching live data. Falling back to local database.");
+        dataset = { data: { movies: moviesList } }; // Fallback to local database
+    }
 
     app.listen(port, () => {
-        console.log('server is running...');
+        console.log(`Server is running on port ${port}`);
     });
-}
+};
+
 dataloader();
+
 // "/" endpoint to return the entire dataset
 app.get('/', (req,res)=>{
     res.json(dataset);
